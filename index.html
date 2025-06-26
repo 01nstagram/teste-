@@ -4,110 +4,349 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Snakers</title>
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN - used for general utility, but custom CSS will override specifics -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts - Inter and Pacifico -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
   <style>
-    /* Custom styles for the Inter font and a smooth splash transition */
+    /* Custom CSS from user's provided style.css */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      /* margin-top: -1px; -- Removed as it causes layout issues and is usually not needed */
+      padding: 0;
+    }
+
+    html, body {
+      overflow: hidden; /* Important for splash screen and general layout */
+    }
+
     body {
       font-family: 'Inter', sans-serif;
+      /* Using the user's specific gradient and background image */
+      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%);
+      background-image: url('https://i.imgur.com/mzJaxax.png'); /* User's provided background image */
+      background-size: cover;
+      background-position: center; /* Center the background image */
+      background-repeat: no-repeat; /* Prevent background image from repeating */
+      color: #fff;
+      min-height: 100vh; /* Changed from 50vh to 100vh for full viewport height */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
+
     .splash {
-      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: hideSplash 0.5s ease 3s forwards; /* Use CSS animation to hide */
     }
-    .splash.hidden {
-      opacity: 0;
-      visibility: hidden;
+
+    .splash-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #701ca7; /* Purple border */
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 30px #8c2bff66; /* Purple shadow */
+      text-align: center;
+      color: #d4a6f7; /* Light purple text */
+      font-family: 'Inter', sans-serif;
+      animation: fadeInScale 0.5s ease;
     }
-    /* Keyframes for the fade-in-up and progress-bar animations */
-    @keyframes fade-in-up {
+
+    .splash-box h2 {
+      font-size: 28px;
+      color: #c43aff; /* Bright purple text */
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #932fff; /* Purple text shadow */
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .logo img {
+      width: 70px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      /* The border and shadow from the previous design's div will be applied by Tailwind where appropriate */
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 900;
+      color: #c43aff; /* Bright purple text */
+      text-shadow: 0 0 15px #c43aff, 0 0 30px #932fff; /* Double purple text shadow */
+      margin-bottom: 30px;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #701ca7; /* Purple border */
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 30px #8c2bff66; /* Purple shadow */
+      display: flex; /* Added flexbox for internal spacing, mirroring Tailwind's space-y */
+      flex-direction: column;
+      gap: 15px; /* Replaces Tailwind's space-y */
+    }
+
+    .input-box {
+      background-color: #1a1a1a;
+      padding: 15px;
+      border-radius: 12px;
+      /* margin-bottom handled by container gap now */
+      box-shadow: inset 0 0 10px #5e1a88; /* Inset purple shadow */
+      font-weight: bold;
+      font-size: 16px;
+      color: #fff;
+      border: none;
+      width: 100%;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .eye-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%; /* Changed to 50% for vertical centering */
+      transform: translateY(-50%);
+      color: #aaa;
+      cursor: pointer;
+      transition: color 0.2s ease-in-out; /* Smooth hover transition */
+    }
+    .password-wrapper .eye-icon:hover {
+      color: #ddd; /* Lighter on hover */
+    }
+
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(90deg, #c43aff, #932fff); /* Purple gradient */
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 0 0 10px #000;
+      box-shadow: 0 0 15px #c43aff; /* Purple shadow */
+      /* margin-bottom handled by container gap now */
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px #c43aff; /* Enhanced shadow on hover */
+    }
+    /* Specific styles for the second button if needed, but not in original CSS */
+    #verProva {
+      background: linear-gradient(90deg, #701ca7, #5e1a88); /* A slightly different purple gradient for visual distinction */
+      box-shadow: 0 0 15px #701ca7;
+    }
+    #verProva:hover {
+      box-shadow: 0 0 20px #701ca7;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-family: 'Pacifico', cursive;
+      font-size: 16px;
+      color: #d4a6f7;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px; /* Added padding */
+      background: rgba(0, 0, 0, 0.6); /* Slightly darker background for footer */
+      border-top: 1px solid #701ca7; /* Border matching container */
+      border-radius: 20px 20px 0 0; /* Rounded top corners */
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer a {
+      color: #c43aff; /* Bright purple for the link */
+      text-decoration: none; /* Remove underline */
+      transition: color 0.2s ease-in-out;
+    }
+
+    .footer a:hover {
+      color: #d4a6f7; /* Lighter purple on hover */
+    }
+
+    /* .footer svg { /* User's CSS had SVG style, but no SVG in HTML for now. Keeping for reference */
+    /* width: 20px;
+    /* height: 20px;
+    /* fill: #c43aff;
+    /* } */
+
+    .barra-tempo {
+      height: 6px;
+      margin-top: 8px;
+      border-radius: 20px;
+      background: linear-gradient(to right, #c43aff, #701ca7);
+      animation: reduzir-barra 2.5s linear forwards;
+      box-shadow: 0 0 10px #c43aff;
+    }
+
+    #TamanhoN {
+      position: absolute;
+      bottom: 6%;
+      left: 1%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: 80%;
+      max-width: 80%;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* For Firefox */
+      /* For Webkit browsers */
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto; /* Enable scrolling if content overflows */
+    }
+    #TamanhoN::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Webkit */
+    }
+
+    .Notificacao {
+      background: linear-gradient(135deg, rgba(60, 0, 80, 0.6), rgba(120, 0, 150, 0.6));
+      padding: 5px;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      max-width: 100%;
+      box-shadow: 0 0 10px #8c2bff;
+      animation: fadeInScale 0.5s ease;
+    }
+
+    /* ========================== ANIMAÇÕES ========================== */
+
+    @keyframes fadeInScale {
       from {
         opacity: 0;
-        transform: translateY(20px) scale(0.95);
+        transform: scale(0.9);
       }
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: scale(1);
       }
     }
-    .animate-fade-in-up {
-      animation: fade-in-up 0.7s ease-out forwards;
-      animation-delay: 0.3s; /* Delay the splash box animation */
+
+    @keyframes hideSplash {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
 
-    @keyframes progress-bar {
+    @keyframes reduzir-barra {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+
+    @keyframes aparecer {
       from {
-        transform: translateX(-100%);
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sumir {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100vw);
+      }
+    }
+
+    @keyframes AparecerBonito {
+      from {
+        transform: translateX(-100vw);
       }
       to {
         transform: translateX(0);
       }
     }
-    .animate-progress-bar {
-      animation: progress-bar 1.5s ease-in-out forwards;
-    }
+
   </style>
 </head>
-<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
   <!-- Splash de boas-vindas -->
-  <div id="splash" class="splash fixed inset-0 bg-gray-950 flex items-center justify-center z-50 transition-all duration-700">
-    <div class="splash-box bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full transform transition-transform duration-700 scale-95 opacity-0 animate-fade-in-up">
-      <h2 class="text-3xl font-pacifico text-gray-800 mb-4 animate-pulse">Bem-vindo ao Snakers! 🐍</h2>
-      <p class="text-lg text-gray-700">Carregando sua experiência mágica...</p>
-      <div class="mt-6 h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div class="w-full h-full bg-gray-700 animate-progress-bar origin-left"></div>
-      </div>
+  <div id="splash" class="splash">
+    <div class="splash-box">
+      <h2>Bem-vindo ao Snakers! 🐍</h2>
+      <p>Carregando sua experiência mágica...</p>
+      <div class="barra-tempo h-2 mt-6 rounded-full overflow-hidden"></div>
     </div>
   </div>
 
   <!-- Main Content Container -->
-  <div class="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 mt-16 mb-8 flex flex-col items-center border border-gray-300">
+  <div class="relative z-10 w-full max-w-md mt-16 mb-8 flex flex-col items-center">
 
     <!-- Logo -->
-    <div class="logo -mt-20 mb-6 w-32 h-32 flex items-center justify-center rounded-full bg-white p-2 shadow-lg border-4 border-gray-500">
-      <img src="https://placehold.co/120x120/000000/FFFFFF?text=Snakers" alt="Snakers Logo" class="rounded-full w-full h-full object-cover"/>
+    <div class="logo -mt-20">
+      <img src="https://placehold.co/70x70/000000/FFFFFF?text=S" alt="Snakers Logo" />
     </div>
 
     <!-- Title -->
-    <h1 class="text-5xl font-extrabold text-gray-800 mb-8 tracking-wide">
-      SNAKERS
-    </h1>
+    <h1>SNAKERS</h1>
 
     <!-- Form -->
-    <form id="Enviar" class="w-full space-y-6">
-      <div class="container w-full space-y-4">
+    <form id="Enviar" class="w-full">
+      <div class="container">
         <input
           type="text"
-          class="input-box w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 shadow-sm text-gray-800 placeholder-gray-400 bg-gray-50"
+          class="input-box"
           id="user"
           placeholder="Ex: 00011198235xSP"
           aria-label="User ID"
         />
 
-        <div class="password-wrapper relative w-full">
+        <div class="password-wrapper">
           <input
             type="password"
             id="senha"
-            class="input-box w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 shadow-sm pr-12 text-gray-800 placeholder-gray-400 bg-gray-50"
+            class="input-box"
             placeholder="Digite Sua Senha"
             aria-label="Password"
           />
-          <span class="eye-icon absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200" id="showPass" aria-label="Toggle password visibility">
+          <span class="eye-icon" id="showPass" aria-label="Toggle password visibility">
             👁️
           </span>
         </div>
 
         <button
-          class="btn w-full bg-gray-800 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-gray-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300"
+          class="btn"
           type="submit"
           id="Tarefa"
         >
           REALIZAR ATIVIDADES
         </button>
         <button
-          class="btn w-full bg-gray-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-gray-500 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300"
+          class="btn"
           type="submit"
           id="verProva"
         >
@@ -118,12 +357,11 @@
   </div>
 
   <!-- Footer -->
-  <div class="footer w-full text-center mt-auto py-4 bg-gray-900 text-white text-sm rounded-t-xl shadow-inner border-t border-gray-700">
+  <div class="footer w-full text-center">
     <a
       href="https://discord.gg/GNTUuP6Uyp"
       target="_blank"
       rel="noopener noreferrer"
-      class="text-gray-300 hover:text-gray-100 transition-colors duration-200 font-medium"
     >
       Junte-se a nós no Discord! 💬
     </a>
@@ -132,18 +370,10 @@
   <article id="TamanhoN"></article>
 
   <script>
-    // Simple splash screen logic for demonstration
-    window.addEventListener('load', () => {
-      const splash = document.getElementById('splash');
-      if (splash) {
-        // Add a small delay for the animation to be visible
-        setTimeout(() => {
-          splash.classList.add('hidden');
-        }, 1500); // Adjust this delay as needed
-      }
-    });
+    // Removed the JavaScript `setTimeout` for splash hiding, as CSS animation handles it now.
+    // The splash will disappear after 3 seconds due to `animation: hideSplash 0.5s ease 3s forwards;`
 
-    // Basic password visibility toggle for demonstration
+    // Basic password visibility toggle
     document.addEventListener('DOMContentLoaded', () => {
       const passwordInput = document.getElementById('senha');
       const showPassToggle = document.getElementById('showPass');
