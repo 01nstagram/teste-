@@ -3,49 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gabaritus</title>
+  <title>Snakers</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts - Inter and Pacifico -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Custom styles for the Inter font and a smooth splash transition */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .splash {
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    }
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    /* Keyframes for the fade-in-up and progress-bar animations */
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 0.7s ease-out forwards;
+      animation-delay: 0.3s; /* Delay the splash box animation */
+    }
+
+    @keyframes progress-bar {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+    .animate-progress-bar {
+      animation: progress-bar 1.5s ease-in-out forwards;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
 
   <!-- Splash de boas-vindas -->
-  <div class="splash">
-    <div class="splash-box">
-      <h2>Bem-vindo ao Gabaritus! 🌙</h2>
-      <p>Carregando sua experiência mágica...</p>
-    </div>
-  </div>
-
-  <div class="logo">
-    <img src="https://i.imgur.com/IKIFKQV.png" alt="MoonScripts logo" />
-  </div>
-
-  <h1>GABARITUS</h1>
-  <form id="Enviar">
-    <div class="container">
-      <input type="text" class="input-box" id="user" placeholder="Ex: 00011198235xSP" />
-
-      <div class="password-wrapper">
-        <input type="password" id="senha" class="input-box" placeholder="Digite Sua Senha" />
-        <span class="eye-icon" id="showPass">👁️</span>
+  <div id="splash" class="splash fixed inset-0 bg-gray-950 flex items-center justify-center z-50 transition-all duration-700">
+    <div class="splash-box bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full transform transition-transform duration-700 scale-95 opacity-0 animate-fade-in-up">
+      <h2 class="text-3xl font-pacifico text-gray-800 mb-4 animate-pulse">Bem-vindo ao Snakers! 🐍</h2>
+      <p class="text-lg text-gray-700">Carregando sua experiência mágica...</p>
+      <div class="mt-6 h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div class="w-full h-full bg-gray-700 animate-progress-bar origin-left"></div>
       </div>
-
-      <button class="btn" type="submit" id="Tarefa">REALIZAR ATIVIDADES</button>
-      <button class="btn" type="submit" id="verProva">VER PROVAS</button>
     </div>
-  </form>
-  <div class="footer">
-  <a href="https://discord.gg/GNTUuP6Uyp" target="_blank" rel="noopener noreferrer">
-    Discord
-  </a>
-</div>
-  <article id="TamanhoN">
-  </article>
+  </div>
+
+  <!-- Main Content Container -->
+  <div class="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 mt-16 mb-8 flex flex-col items-center border border-gray-300">
+
+    <!-- Logo -->
+    <div class="logo -mt-20 mb-6 w-32 h-32 flex items-center justify-center rounded-full bg-white p-2 shadow-lg border-4 border-gray-500">
+      <img src="https://placehold.co/120x120/000000/FFFFFF?text=Snakers" alt="Snakers Logo" class="rounded-full w-full h-full object-cover"/>
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-5xl font-extrabold text-gray-800 mb-8 tracking-wide">
+      SNAKERS
+    </h1>
+
+    <!-- Form -->
+    <form id="Enviar" class="w-full space-y-6">
+      <div class="container w-full space-y-4">
+        <input
+          type="text"
+          class="input-box w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 shadow-sm text-gray-800 placeholder-gray-400 bg-gray-50"
+          id="user"
+          placeholder="Ex: 00011198235xSP"
+          aria-label="User ID"
+        />
+
+        <div class="password-wrapper relative w-full">
+          <input
+            type="password"
+            id="senha"
+            class="input-box w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 shadow-sm pr-12 text-gray-800 placeholder-gray-400 bg-gray-50"
+            placeholder="Digite Sua Senha"
+            aria-label="Password"
+          />
+          <span class="eye-icon absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200" id="showPass" aria-label="Toggle password visibility">
+            👁️
+          </span>
+        </div>
+
+        <button
+          class="btn w-full bg-gray-800 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-gray-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300"
+          type="submit"
+          id="Tarefa"
+        >
+          REALIZAR ATIVIDADES
+        </button>
+        <button
+          class="btn w-full bg-gray-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-gray-500 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300"
+          type="submit"
+          id="verProva"
+        >
+          VER PROVAS
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer w-full text-center mt-auto py-4 bg-gray-900 text-white text-sm rounded-t-xl shadow-inner border-t border-gray-700">
+    <a
+      href="https://discord.gg/GNTUuP6Uyp"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-gray-300 hover:text-gray-100 transition-colors duration-200 font-medium"
+    >
+      Junte-se a nós no Discord! 💬
+    </a>
+  </div>
+
+  <article id="TamanhoN"></article>
+
+  <script>
+    // Simple splash screen logic for demonstration
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        // Add a small delay for the animation to be visible
+        setTimeout(() => {
+          splash.classList.add('hidden');
+        }, 1500); // Adjust this delay as needed
+      }
+    });
+
+    // Basic password visibility toggle for demonstration
+    document.addEventListener('DOMContentLoaded', () => {
+      const passwordInput = document.getElementById('senha');
+      const showPassToggle = document.getElementById('showPass');
+
+      if (passwordInput && showPassToggle) {
+        showPassToggle.addEventListener('click', () => {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showPassToggle.textContent = '🙈'; // Closed eye emoji
+          } else {
+            passwordInput.type = 'password';
+            showPassToggle.textContent = '👁️'; // Open eye emoji
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- Your existing scripts -->
   <script src="menus.js"></script>
   <script src="utils.js"></script>
   <script src="script.js"></script>
-  
 
 </body>
 </html>
+
